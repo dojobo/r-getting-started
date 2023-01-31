@@ -1,0 +1,580 @@
+---
+title: "Getting Started with R and RStudio"
+author: "Dominic Bordelon, Research Data Librarian, University of Pittsburgh Library System"
+date: "January 30, 2023"
+format: gfm
+editor: visual
+execute:
+  eval: false
+---
+
+# Getting Started with R and RStudio
+
+Welcome!
+
+## Agenda
+
+1.  About the trainer
+2.  What are R and RStudio? What can you do with them?
+3.  RStudio Orientation
+4.  Packages: what they are and installing them
+5.  Import a spreadsheet as an R data frame
+6.  Basic calculations and functions in R; important data structures
+7.  Potential next steps
+
+## About the trainer
+
+**Dominic Bordelon**, Research Data Librarian\
+University Library System -- Digital Scholarship Services\
+[dbordelon\@pitt.edu](mailto:dbordelon@pitt.edu), <https://pitt.libguides.com/dominicbordelon>
+
+Previously: background in humanities and libraries + self-taught coding interest ➝ library IT and web development (\~5 yrs) ➝ Research Data Librarian at Pitt since Nov 2019
+
+Support for various "data work"...
+
+-   data management planning (esp. for grant proposals)
+-   data cleaning, processing, analysis, visualization using tools like R and Python
+-   project version control using Git and GitHub
+-   understanding IT terms, how the internet works (HTTP, APIs), etc., as it pertains to your research
+-   data sharing and other Open Science topics
+
+...via consultations ([book here](https://pitt.libcal.com/appointments/research_data_librarian)); workshops for the Pitt community; on-request training
+
+[Carpentries](https://carpentries.org/)[^1] Certified Instructor
+
+[^1]: The Carpentries is a community which "builds global capacity in essential data and computational skills for conducting efficient, open, and reproducible research" through evidence-based instructor and mentor training and open learning materials ([link](https://carpentries.org/about/)). It is fiscally sponsored by Community Initiatives, a CA-based 501(c)(3) nonprofit.
+
+Returning part-time undergrad in Ecology
+
+## What are R and RStudio?
+
+![](images/Rlogo.svg){fig-alt="R logo" fig-align="center" width="200"}
+
+**R** is...
+
+-   a tool for statistical analysis and visualization dating back to 1993
+    -   derived a free alternative to IBM's S language
+-   a programming language[^2]
+-   text-based command interface $\rightarrow$ it runs on the console/command line
+-   biased towards tabular data and matrices (in practice)
+-   free, open-source software (FOSS) stewarded by the nonprofit, Vienna-based R Foundation
+-   full name: The R Project for Statistical Computing
+
+[^2]: Programming language style: practical R usage tends to operate in the procedural and functional programming paradigms, rather than an object-oriented paradigm.
+
+![](images/RStudio-Logo.svg){fig-alt="RStudio logo" fig-align="center" width="400"}
+
+**RStudio (Desktop)** is...
+
+-   an "integrated development environment" for analysis and programming in R and Python
+-   = a graphical layer of software to facilitate our usage of R
+-   Posit (until recently, called RStudio) is a Boston-based public benefit corporation, founded 2009, which makes both FOSS and commercial software[^3] and offers hosted services
+
+[^3]: FOSS products: RStudio Desktop, RStudio Server, Shiny Server, and many R packages. Commercial products: RStudio Team, RStudio Workbench.
+
+### What can you do with R and RStudio?
+
+Let's follow the research data life cycle...
+
+![Research Data Lifecycle; source: [Princeton Research Data Service](https://researchdata.princeton.edu/research-lifecycle-guide/research-lifecycle-guide)](images/data-lifecycle.png){fig-alt="A diagram of the research data life cycle. Steps: Plan, Acquire, Process, Analyze, Preserve, Share Results, Discover & Re-Use" fig-align="center" width="500"}
+
+#### Data collection from online sources
+
+-   API == Application Programming Interface
+    -   Many open data sources are accessible programmatically via HTTP APIs
+    -   You can dynamically query the remote database and get the matching data back in a structured way, as opposed to needing to download many files.
+    -   Some examples: Google Maps, Twitter, Fitbit, Census Reporter, COVID-19 Data Portal, NCI Genomic Data Commons
+    -   Package: [httr](https://httr.r-lib.org/)
+-   Web scraping
+    -   Extracting information from web page HTML
+
+    -   Package: [rvest](https://rvest.tidyverse.org/)
+
+#### Data cleaning, processing, and reshaping
+
+For example:
+
+-   standardizing mixed column names, removing extra white space from cells
+-   splitting and combining columns
+-   detecting and handling missing values and outliers
+-   reshaping tabular data
+
+![](images/pivot-longer.png){fig-align="center"}
+
+Packages: [dplyr](https://dplyr.tidyverse.org/), [tidyr](https://tidyr.tidyverse.org/)
+
+#### Combining data from different sources
+
+Table joins (for example: a table of geospatial observations could be joined to a table of census tracts
+
+Connect to relational databases like MySQL, PostgresSQL, Oracle, etc.
+
+Packages: [dplyr](https://dplyr.tidyverse.org/), [dbplyr](https://dbplyr.tidyverse.org/)
+
+#### Types of data analysis and visualization
+
+Statistical modeling
+
+Machine Learning (e.g., TensorFlow)
+
+Geocomputation, GIS:
+
+-   Mapping (raster and vector)
+-   Analysis and statistical modeling
+
+Computational text analysis: tokenization, TF-IDF, topic modeling
+
+Computational genomics:
+
+-   working with genomic intervals
+-   high-throughput RNA-seq and ChIP-seq analysis
+-   DNA methylation analysis
+
+High-performance computing (e.g., Hadoop)
+
+#### Make documents, slideshows, websites, books
+
+-   [Literate programming](https://en.wikipedia.org/wiki/Literate_programming): mix narrative text, code, code outputs (e.g., viz or tables)
+-   Hypertext: include images, links, embedded video, footnotes
+-   Use $\LaTeX$ (esp. for math formulas)
+    -   Inline mode example:[^4] $H' = -\sum_{i=1}^{R}p_i \ln p_i$
+
+    -   Display mode example:[^5]
+
+[^4]: Shannon Diversity Index, https://en.wikipedia.org/wiki/Diversity_index#Shannon_index
+
+[^5]: the Hill equation, <https://en.wikipedia.org/wiki/Hill_equation_(biochemistry)>
+
+$$
+\theta = \frac{1}{(\frac{K_A}{|L|})^n + 1}
+$$
+
+-   Make inline citations and bibliography using Zotero and/or .bib files
+-   One input file, many potential output formats (PDF, HTML, Word...)
+-   Presentations can be PPTX, PDF, or browser-based ([demo here](https://quarto.org/docs/presentations/revealjs/demo/))
+-   For many more examples check out the [RMarkdown gallery](https://rmarkdown.rstudio.com/gallery.html) or the [Quarto gallery](https://quarto.org/docs/gallery/)
+
+#### Dashboards and other web apps
+
+-   "Dashboard": in-browser interface with viz of live, refreshing data (e.g., from a database), often with some interactivity, like filtering, drilling down, highlighting based on mouse cursor, etc.
+-   Packages: [Shiny](https://shiny.rstudio.com/), [plotly](https://plotly.com/r/)
+-   For lots of examples, check out the [Shiny Gallery](https://shiny.rstudio.com/gallery/)
+
+## RStudio Orientation
+
+### Panes
+
+-   Bottom left: Console
+    -   Run commands instantly in R $\rightarrow$ see command-line output
+    -   Command history (press up arrow key)
+-   Top left: Source/Editor
+    -   Where you open files (tabbed)
+    -   Write a script (multiple lines of R code), which you can *Run* ( = RStudio sends each line of the script to the console pane)
+    -   Can also be used to write documents in plain text or markdown, or *notebooks* in RMarkdown
+-   Top right: Environment, History
+    -   Global Environment = workspace of your current R session
+-   Bottom right: Help, Working Directory
+
+### RMarkdown/Quarto
+
+-   This document is written in Quarto format, which is the most recent iteration of RMarkdown. A file written in RMarkdown is also called *an RMarkdown Notebook* or just *an R Notebook*.
+-   Extends the popular [markdown](https://daringfireball.net/projects/markdown/) format (seen on Wikipedia and GitHub) by enabling the author to include executable code *chunks* like the one below
+-   Switch between Source and Visual editors (buttons near top left of editor pane)
+
+A code chunk:
+
+```{r}
+1+4
+sqrt(144)
+```
+
+### Configuration
+
+-   Tools \> Global Options...
+-   Many options can also be configured at Project level
+-   Keyboard shortcuts are very handy! Tools \> Keyboard Shortcuts Help
+
+```{r}
+
+```
+
+### What kind of files will you open in RStudio?
+
+-   An **R Notebook** or RMarkdown document (**.Rmd**) intermixes R code and text formatted with markdown; the newest version is the **Quarto document** (**.qmd**)
+-   An **R script** (**.R**) is a plain-text file that can be executed by R directly. However, because the file must be parseable, this means that the only permitted "natural language" is in code comments.
+-   An [**R Project**](https://support.rstudio.com/hc/en-us/articles/200526207-Using-RStudio-Projects) (**.Rproj**) file lives in the directory for a given project, and it holds information like command history and settings. They are optional but recommended.
+-   An .**RData** file is a workspace (session) snapshot
+-   An **.rds** file is an R data structure, i.e., an R object which has been saved to the filesystem.
+
+Of course, you will also be loading files in whatever format your data take (spreadsheets, shapefiles, etc.).
+
+Protip: make sure your operating system is set to display *all* file extensions!
+
+-   [Windows instructions](https://support.microsoft.com/en-us/windows/common-file-name-extensions-in-windows-da4a4430-8e76-89c5-59f7-1cdbbc75cb01)
+-   [macOS instructions](https://support.apple.com/guide/mac-help/show-or-hide-filename-extensions-on-mac-mchlp2304/mac#:~:text=On%20your%20Mac%2C%20select%20a,or%20deselect%20%E2%80%9CHide%20extension.%E2%80%9D)
+
+### Ways to run your session
+
+-   Notebooks provide an easy route which lets you stay in just the Editor pane (ignore the Console)
+    -   Whenever you get to code you want to run, you can run a single line (Ctrl-Enter or Cmd-Enter), or run the whole chunk. Either way, the output appears below the chunk.
+    -   All code *is* sent to the Console if you really need to see it.
+-   You can use the Console directly
+    -   ...but make sure to save your work somewhere!
+    -   I only recommend this for quick calculations and one-liners that you don't need to save.
+-   You can have an R script open, and send its content (line-by-line or all at once) down to the Console.
+    -   Better than using the Console directly for reproducibility
+
+    -   But less convenient than notebooks (narrative can only exist as "comments" with #; see "working directory" below)
+
+Your R session always has a **working directory**, i.e., where R is "looking" in the filesystem. If you're using a notebook, you probably don't have to worry about the working directory thanks to RStudio settings (woohoo!). However, **when running .R scripts or working in the console directly, you must check/set your working directory!** The working directory is an absolute file path,
+
+Use `getwd()` to see what your current working directory is. Use `setwd()` to set the working directory---or much easier, use the Files Pane (bottom right) to browse and set the working directory.
+
+    > getwd()
+    [1] "C:/Users/djb190/Documents"
+
+Similar to a notebook, .Rproj (R Project) files take care of the working directory for you: when you open the RProj file, a new R session will launch and automatically set the working directory specified in the RProj file.
+
+One last important note about R sessions: RStudio has a convenience feature to snapshot your session environment before quitting, which can then be loaded at next startup.
+
+## Packages: what they are and installing them
+
+In addition to R's built-in functionality ("base R"), we can also leverage work done by the community, released as **packages**. The developer of a package loads it onto a public repository **CRAN** (the Comprehensive R Archive Network). From CRAN, R users can install the package onto their own computer.
+
+Packages are typically built for a specific purpose or to collect a specific set of functions. Here are some popular examples:
+
+-   ggplot2: makes plots (using a "grammar of graphics")
+-   dplyr: filters, sorts, and modifies datasets
+-   shiny: creates web applications, especially dashboards
+-   stringr: has tools to help you work with character strings (text)
+-   tmap: creates maps
+
+### To install a package
+
+-   Using your mouse:
+    -   in the bottom right pane, click the Packages tab
+    -   click the Install button at the top of the pane
+    -   type the name of the package you want to install (example: `stringr`)
+    -   click Install
+-   Running code: `install.packages("stringr")` (replace `stringr` with the name of your desired package)
+
+### To use a package
+
+Once installed, a package needs to be activated before you can use it.
+
+-   Using your mouse:
+    -   in the bottom right pane, click the Packages tab
+    -   find the name of the package you want to activate (by scrolling or searching in the top-right box), example: `stringr`
+    -   click the check-box next to the package name
+-   Running code: `library(stringr)`
+
+You will need to reactivate the package every time you start a new R session.
+
+### Let's install and attach (activate) tidyverse
+
+"tidyverse" is a popular collection of packages--and we're about to use it in the next section, so let's install and activate:
+
+```{r}
+install.packages("tidyverse")
+install.packages("readxl")
+library(tidyverse)
+library(readxl)
+```
+
+## Import a spreadsheet as an R data frame
+
+Easiest is the Import Dataset feature in the Environment pane (top right).
+
+The Import Dataset feature generates code, which you can paste into a code chunk, like the one below:
+
+```{r}
+tg <- read_excel("data/tumorgrowth.xlsx", 
+           sheet = "AnalysisData")
+
+```
+
+This way, the file-loading step will be saved in your document, so that you can easily recreate your session.
+
+## Basic calculations and functions in R; important data structures
+
+You can use R as a calculator, including with many algebraic functions:
+
+```{r}
+7.3 * 4^3 + 139
+
+log(3)
+log(3, base=exp(2))
+
+exp(2)
+```
+
+(Of course, you can also write your own functions.) To learn more about a function, like `log()`, or search out a function you need, use the Help pane (bottom right).
+
+R's fundamental data structure is the **vector**, an ordered collection of values all sharing the same data type (numeric, character, boolean, etc.). We can create a vector with the `c()` ("combine") function. Doing calculations or running a function on a vector will usually either 1) apply piecewise to each item in the vector or 2) apply to all items in the vector, as appropriate. In case #1, we can say the function is "vectorized."
+
+```{r}
+c(1.4, 5.7, 3.2, 2.6, 1.0, 0, -1.9)
+
+# In order to use these values more easily,
+# I will store the vector as an object in my session environment:
+observations <- c(1.4, 5.7, 3.2, 2.6, 1.0, 0, -1.9)
+observations
+
+# Piecewise application:
+big_obs <- observations * 100
+
+# Cumulative application:
+median(observations)
+mean(observations)
+sd(observations)
+
+# One of the most important R functions! summary()
+summary(observations)
+
+summary(tumorgrowth)
+```
+
+### Data frames
+
+A **data frame** is structured in rows ("observations") and columns ("variables"). This can also be called tabular data. Our spreadsheet above is imported as a data frame. Just beneath the surface, however, each column is really just a vector.
+
+Let's use the `View()` and `str()` functions to examine the data frame:
+
+```{r}
+tg <- tumorgrowth
+View(tg)
+
+str(tg)
+```
+
+You can refer to one variable (column) in a data frame with the **`$`** (dollar sign):
+
+```{r}
+tg$Size
+```
+
+### Exercise 1
+
+A handy function is `help()`, which queries R's documentation system. Most commonly, you'll look up functions. You can search by running `help(topic)` or `?topic`, e.g., `?sqrt`. Notice that the result will appear in the Help pane.
+
+1.  There is confusion among some R users what the "c" in the function `c()` stands for. Using the help system, what does `c()` do? What do you think "c" stands for?
+
+```{r}
+
+```
+
+2.  Create a vector of arbitrary patient ages and store it as an object called `ages`.
+
+```{r}
+
+```
+
+3.  What do you estimate is the mean age? Calculate it using `mean()`.
+
+```{r}
+
+```
+
+4.  What is the mean value of the `Size` variable in `tg`?
+
+```{r}
+
+```
+
+### Matrices
+
+Vectors are one-dimensional. For 2+ dimensions, we need a **matrix**.
+
+```{r}
+1:9     # the integer sequence 1 to 9, as a vector
+
+matrix(data = 1:9, nrow = 3, ncol = 3)
+```
+
+Can you do matrix algebra in R? [Yes!](http://cda.psych.uiuc.edu/multivariate_fall_2011/matrix_algebra_in_r.pdf)
+
+### Lists
+
+Lists are collections of items; unlike vectors, they are potentially heterogeneous. You can also give a name to each item in a list if desired. Many specialized data structures are actually lists with special attributes and functionality.
+
+```{r}
+list(sex = c("F", "M"),
+     group = c("Control", "1", "2", "3"),
+     "cm",
+     25:35)
+```
+
+### Factors
+
+A **factor** is a vector which represents a categorical variable, i.e., that there are only a finite number of possible values. Examples of categorical variables:
+
+-   type of thing
+-   which treatment group (or control group)
+-   which observation site (e.g., "Plot A"---but not geographic coordinates)
+-   biological sex (although note that \>2 categories may be coded)
+-   gender (although note that a binary is not necessarily presumed)
+-   month, day of week, week number of year
+-   shoe size, athletic weight class (but not: height, weight)
+-   Likert scale (e.g., "on a scale of 1 to 5, where 1 is strongly disaree and 5 is strongly agree...")
+
+The possible values of a factor are its **levels**. Levels may be **ordered** (e.g., month) or unordered (e.g., sex, eye color).
+
+To create a factor, use the `factor()` function. R will automatically determine the levels, but you can specify them, as well as whether they are ordered.
+
+```{r}
+c("Control", "Group 1", "Group 2")
+
+# turning a vector of values into a factor:
+treatment_grp <- factor(c("Control", "Group 1", "Group 2", "Group 1", "Control", "Control", "Group 2", "Group 2", "Group 3"))
+# note that when we print the factor, it tells us the levels:
+treatment_grp
+
+# summary includes a count for each level:
+summary(treatment_grp)
+```
+
+Sometimes your dataset might have categorical data coded numerically (e.g., `1` for females and `2` for males), such that you will also want to have a way to store human-readable **labels**.
+
+```{r}
+factor(c(1, 2, 1, 3, 1, 2, 1, 2, 2, 3, 2, 1, 2, 3, 1, 1),
+       levels = c("1", "2", "3"),
+       labels = c("Control", "Group 1", "Group 2"))
+```
+
+## Objects and functions
+
+When we give R a command, it usually returns an **object** of some kind. We can usually see a representation of this object in the console when R returns the object.
+
+To store the object in memory, in order to view it more than once or modify it, we will need to assign a name to the object. *(Note: saving to memory ≠ saving to disk!)* We'll use the **assignment operator**, written **`<-`**, between our new object's name and the function call. For example:
+
+```{r}
+c(41.8, 85.0, 114.0)      # creates a vector with three values
+
+size <- c(41.8, 85.0, 114.0)      # creates the vector and saves it to an object called "size"
+
+# note the "size" object in your Environment tab!
+size
+```
+
+### Data types
+
+On object's data type determines what kinds of operations we can do on the object. For example, numeric and character vectors have different behaviors:
+
+```{r}
+group <- c("Group 1", "Group 2", "Group 1", "Group 1")
+
+size * 2
+group * 2   # error!
+```
+
+To find out an object's data type, you can see it listed in the Environment tab (`chr`, `num`) or run the `typeof()` function.
+
+### Functions
+
+A function can have one or more **arguments**; for example, the `sqrt()` function takes an `x` argument, which we could also write as `sqrt(x)`. In the code chunk below, we use the `size` object for the `x` argument:
+
+```{r}
+sqrt(size)
+
+# R also supports "named arguments":
+sqrt(x = size)
+```
+
+We say that a function **returns** its output (often an object); `sqrt(16)` returns `4`.
+
+You can also write your own functions, using **`function()`**. Here is a function that raises `x` to the `y` power:
+
+```{r}
+my_new_function <- function(x, y) {
+  return(x^y)
+}
+
+my_new_function(2, 3)     #   == 2^3
+```
+
+Modeling also takes place via functions. An example is `lm()` ("linear model"), which fits a linear regression model. The output of such a function is a model object. Once you have your model stored as an object, you can examine the model's properties, plot the regression line and error, and generate predictions.
+
+```{r}
+tg_model <- lm(Size ~ Day, data=tg)
+
+# printing our model gives the Y intercept (-28.83) and slope (55.99)
+tg_model
+
+# a summary of the model gives further info:
+summary(tg_model)
+
+# use the model to make predictions:
+# what is the predicted tumor size on day 30? 50?
+predict(tg_model, 
+        newdata = data.frame(Day = c(30, 50)))
+```
+
+### Quick, easy Base R plots
+
+Base R has some functions to quickly plot vectors (and/or columns of dataframes): `hist()` gives us a histogram, and `plot()` gives us a scatter plot.
+
+```{r}
+hist(tg$Size, main="Tumor size distribution")
+plot(x=tg$Day, y=tg$Size)
+
+summary(lm(tg$Size ~ tg$Day))
+```
+
+For more control over your visualizations than what base R provides, check out the hugely popular ggplot2 library.
+
+### An example ggplot
+
+You'll notice that ggplot is more verbose, but it is also more powerful. Below, we plot a scatter plot (`geom_point()`) and add a smoother (`geom_smooth()`) which fits and plots a model. Notice that the second plot applies a different smoother method, `lm()`.
+
+```{r}
+tg %>% 
+  ggplot(mapping=aes(x=Day, y=Size)) +
+  geom_point() +
+  geom_smooth()
+
+tg %>% 
+  ggplot(mapping=aes(x=Day, y=Size)) +
+  geom_point() +
+  geom_smooth(method="lm")
+```
+
+### Exercise 2
+
+1.  Consider:
+
+```{r}
+my_seq <- c(1, 2, 3)
+my_seq <- c(my_seq, 4, 5)    # predict my_seq's value
+
+my_seq <- c(my_seq, 6, c(7, 8))    # and here?
+
+```
+
+2.  Consider the factor in the code chunk below. Does `bases` have the value you expect? If not: what do you think is going on here?
+
+```{r}
+bases <- factor(c("A", "C", "G", "A", "T", "G", "U", "C"), 
+                levels=c("A", "C", "G", "T"))
+
+bases
+```
+
+## Next Steps
+
+Today we learned about:
+
+-   R and RStudio orientation
+-   Importing spreadsheets
+-   Data structures: data frames, vectors, matrices, lists, factors
+-   Objects and functions
+
+Upcoming events:
+
+-   [R & RStudio Drop-In Hour](https://pitt.libcal.com/calendar/today/r-drop-in) (weekly, Tuesdays, 5--6pm)
+-   Workshops in data wrangling and data visualization: <http://pi.tt/ds-workshops>
+-   [Love Data Week 2023 at Pitt](https://lovedatapgh.io/)
+
+Keep learning on your own:
+
+-   Check out the free ebook [R for Data Science](https://r4ds.had.co.nz/), or [the Big Book of R](https://www.bigbookofr.com/)
+-   [LinkedIn Learning](https://www.technology.pitt.edu/services/ondemand-training-linkedin-learning) is a Pitt-subscribed resource
