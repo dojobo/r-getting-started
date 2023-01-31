@@ -5,7 +5,7 @@ date: "January 30, 2023"
 format: gfm
 editor: visual
 execute:
-  eval: false
+  eval: true
 ---
 
 # Getting Started with R and RStudio
@@ -275,8 +275,12 @@ You will need to reactivate the package every time you start a new R session.
 "tidyverse" is a popular collection of packages--and we're about to use it in the next section, so let's install and activate:
 
 ```{r}
+#| eval: false
 install.packages("tidyverse")
 install.packages("readxl")
+```
+
+```{r}
 library(tidyverse)
 library(readxl)
 ```
@@ -331,7 +335,7 @@ sd(observations)
 # One of the most important R functions! summary()
 summary(observations)
 
-summary(tumorgrowth)
+summary(tg)
 ```
 
 ### Data frames
@@ -341,7 +345,6 @@ A **data frame** is structured in rows ("observations") and columns ("variables"
 Let's use the `View()` and `str()` functions to examine the data frame:
 
 ```{r}
-tg <- tumorgrowth
 View(tg)
 
 str(tg)
@@ -461,6 +464,8 @@ size
 On object's data type determines what kinds of operations we can do on the object. For example, numeric and character vectors have different behaviors:
 
 ```{r}
+#| eval: false
+
 group <- c("Group 1", "Group 2", "Group 1", "Group 1")
 
 size * 2
